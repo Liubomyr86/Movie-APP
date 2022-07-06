@@ -5,7 +5,7 @@ import {
     ApiQueryValue,
     ENV,
 } from '../../common/enums/enum';
-import { IQuery } from '../../common/models/api.model';
+import { IQuery } from '../../common/models/models';
 import { Http } from '../http/http.service';
 
 const query: IQuery = {

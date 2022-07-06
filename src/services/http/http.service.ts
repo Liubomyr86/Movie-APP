@@ -1,7 +1,7 @@
 import { HttpHeader, HttpMethod } from '../../common/enums/enum';
-import { IFetchOptions, IQuery } from '../../common/models/api.model';
+import { IFetchOptions, IQuery } from '../../common/models/models';
 import { HttpError } from '../../exceptions/http-error.exception';
-import { getStringifiedQuery } from '../../helpers/get-stringified-query.helper';
+import { getStringifiedQuery } from '../../helpers/helpers';
 
 class Http {
     async load(url: string, options: IFetchOptions) {
