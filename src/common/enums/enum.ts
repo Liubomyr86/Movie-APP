@@ -22,4 +22,8 @@ export {
     selectorsInputIdValue,
     selectorsLabelAtributeProperty,
     selectorsLabelNameValue,
+    searchMovieAttributeProperty,
+    searchMovieAttributeValue,
+    searchMovieIdValue,
+    searchMovieBtnValue,
 } from './html-attribute/html-attribute';

@@ -6,6 +6,8 @@ enum tagName {
     SMALL = 'small',
     INPUT = 'input',
     LABEL = 'label',
+    FORM = 'form',
+    BUTTON = 'button',
 }
 
 export { tagName };

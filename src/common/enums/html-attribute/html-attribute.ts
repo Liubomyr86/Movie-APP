@@ -13,13 +13,19 @@ export {
 export {
     selectorsWrraperAtributeProperty,
     selectorsWrraperAtributeValue,
-} from './selectors-wrapper-attribute/selectors-wrapper-attribute';
+} from './selectors-movie-atribute/selectors-wrapper-attribute/selectors-wrapper-attribute';
 export {
     selectorsInputAtributeProperty,
     selectorsInputAtributeValue,
     selectorsInputIdValue,
-} from './selectors-input-attribute/selectors-input-attribute';
+} from './selectors-movie-atribute/selectors-input-attribute/selectors-input-attribute';
 export {
     selectorsLabelAtributeProperty,
     selectorsLabelNameValue,
-} from './selectors-label-attribute/selectors-label-attribute';
+} from './selectors-movie-atribute/selectors-label-attribute/selectors-label-attribute';
+export {
+    searchMovieAttributeProperty,
+    searchMovieAttributeValue,
+    searchMovieIdValue,
+    searchMovieBtnValue,
+} from './search-movie-attribute/search-movie-atribute';
