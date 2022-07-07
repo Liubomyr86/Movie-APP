@@ -1,28 +1,24 @@
 import {
-    imageAttributesProperty,
-    imageAttributesValue,
-    pathAttributesProperty,
-    pathAttributesValue,
+    posterAttributeProperty,
+    posterAttributeValue,
+    pathAttributeProperty,
+    pathAttributeValue,
+    svgAttributeProperty,
+    svgAttributeValue,
     tagName,
-} from '../common/enums/dom/dom';
-import { svgAttributesProperty } from '../common/enums/dom/svg-attributes/svg-attributes-property';
-import { svgAttributesValue } from '../common/enums/dom/svg-attributes/svg-attributes-value';
+} from '../common/enums/enum';
 import { ICard } from '../common/models/card.model';
 import { createHTMLElement, createSVGElement } from '../helpers/helpers';
-import { movies } from '../services/services';
 
-export const createCards = async (): Promise<HTMLElement> => {
+export const createMovieCards = (results: any): HTMLElement => {
     const container = createHTMLElement({
         tagName: tagName.DIV,
         className: 'row',
         attributes: { id: 'film-container' },
     });
-    const movieCardsData = await movies.getPopularMovies();
-    const { results } = movieCardsData;
-
     const movieCards: HTMLElement[] = results.map((item: ICard) => {
         const { poster_path, overview, release_date } = item;
-        return createCard({ poster_path, overview, release_date });
+        return createMovieCard({ poster_path, overview, release_date });
     });
 
     movieCards.forEach((card) => container.append(card));
@@ -30,7 +26,7 @@ export const createCards = async (): Promise<HTMLElement> => {
     return container;
 };
 
-const createCard = ({
+const createMovieCard = ({
     poster_path,
     overview,
     release_date,
@@ -39,7 +35,7 @@ const createCard = ({
         tagName: tagName.DIV,
         className: 'col-lg-3 col-md-4 col-12 p-2',
     });
-    const cardImageConatainer = createCardImage({
+    const cardImageConatainer = createMovieCardImage({
         poster_path,
         overview,
         release_date,
@@ -50,7 +46,7 @@ const createCard = ({
     return container;
 };
 
-const createCardImage = ({
+const createMovieCardImage = ({
     poster_path,
     overview,
     release_date,
@@ -63,7 +59,9 @@ const createCardImage = ({
     const image = createHTMLElement({
         tagName: tagName.IMG,
         className: '',
-        attributes: { [imageAttributesProperty.ALT]: imageAttributesValue.ALT },
+        attributes: {
+            [posterAttributeProperty.ALT]: posterAttributeValue.ALT,
+        },
     }) as HTMLImageElement;
 
     image.src = `https://image.tmdb.org/t/p/w500${poster_path}`;
@@ -71,26 +69,29 @@ const createCardImage = ({
         tagName: tagName.SVG,
         className: 'bi bi-heart-fill position-absolute p-2',
         svgAttributes: {
-            [svgAttributesProperty.STOKE]: svgAttributesValue.STOKE,
-            [svgAttributesProperty.FILL]: svgAttributesValue.FILL,
-            [svgAttributesProperty.WIDTH]: svgAttributesValue.WIDTH,
-            [svgAttributesProperty.HEIGHT]: svgAttributesValue.HEIGHT,
-            [svgAttributesProperty.VIEW_BOX]: svgAttributesValue.VIEW_BOX,
+            [svgAttributeProperty.STOKE]: svgAttributeValue.STOKE,
+            [svgAttributeProperty.FILL]: svgAttributeValue.FILL,
+            [svgAttributeProperty.WIDTH]: svgAttributeValue.WIDTH,
+            [svgAttributeProperty.HEIGHT]: svgAttributeValue.HEIGHT,
+            [svgAttributeProperty.VIEW_BOX]: svgAttributeValue.VIEW_BOX,
         },
         pathAttributes: {
-            [pathAttributesProperty.FILL_RULE]: pathAttributesValue.FILL_RULE,
-            [pathAttributesProperty.D]: pathAttributesValue.D,
+            [pathAttributeProperty.FILL_RULE]: pathAttributeValue.FILL_RULE,
+            [pathAttributeProperty.D]: pathAttributeValue.D,
         },
     });
 
-    const cardBodyContainer = createCardBody({ overview, release_date });
+    const cardBodyContainer = createMovieCardBody({ overview, release_date });
 
     cardImageConatainer.append(image, svg, cardBodyContainer);
 
     return cardImageConatainer;
 };
 
-const createCardBody = ({ overview, release_date }: ICard): HTMLElement => {
+const createMovieCardBody = ({
+    overview,
+    release_date,
+}: ICard): HTMLElement => {
     const cardBodyContainer = createHTMLElement({
         tagName: tagName.DIV,
         className: 'card-body',

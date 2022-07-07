@@ -1,4 +1,4 @@
-enum svgAttributesValue {
+enum svgAttributeValue {
     STOKE = 'red',
     FILL = '#ff000078',
     WIDTH = '50',
@@ -6,4 +6,4 @@ enum svgAttributesValue {
     VIEW_BOX = '0 -2 18 22',
 }
 
-export { svgAttributesValue };
+export { svgAttributeValue };

@@ -1,4 +1,4 @@
-enum svgAttributesProperty {
+enum svgAttributeProperty {
     STOKE = 'stroke',
     FILL = 'fill',
     WIDTH = 'width',
@@ -6,4 +6,4 @@ enum svgAttributesProperty {
     VIEW_BOX = 'viewBox',
 }
 
-export { svgAttributesProperty };
+export { svgAttributeProperty };
