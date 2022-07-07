@@ -22,49 +22,49 @@ class Movies {
         this.http = http;
     }
 
-    getPopularMovies() {
+    getPopularMovies(pageNumber: number) {
         return this.http.load(
             `${this.apiPath}/${ApiLevelAuthentication.Level_3}/${ApiPath.Popular}`,
             {
                 query: {
                     ...query,
-                    [ApiQueryProperty.PAGE]: ApiQueryValue.PAGE,
+                    [ApiQueryProperty.PAGE]: pageNumber,
                 },
             }
         );
     }
 
-    getTopRatedMovies() {
+    getTopRatedMovies(pageNumber: number) {
         return this.http.load(
             `${this.apiPath}/${ApiLevelAuthentication.Level_3}/${ApiPath.TopRated}`,
             {
                 query: {
                     ...query,
-                    [ApiQueryProperty.PAGE]: ApiQueryValue.PAGE,
+                    [ApiQueryProperty.PAGE]: pageNumber,
                 },
             }
         );
     }
 
-    getUpcomingMovies() {
+    getUpcomingMovies(pageNumber: number) {
         return this.http.load(
             `${this.apiPath}/${ApiLevelAuthentication.Level_3}/${ApiPath.Upcoming}`,
             {
                 query: {
                     ...query,
-                    [ApiQueryProperty.PAGE]: ApiQueryValue.PAGE,
+                    [ApiQueryProperty.PAGE]: pageNumber,
                 },
             }
         );
     }
 
-    searchMovie(searchQuery: string) {
+    searchMovie(searchQuery: string, pageNumber: number) {
         return this.http.load(
             `${this.apiPath}/${ApiLevelAuthentication.Level_3}/${ApiPath.Search}`,
             {
                 query: {
                     ...query,
-                    [ApiQueryProperty.PAGE]: ApiQueryValue.PAGE,
+                    [ApiQueryProperty.PAGE]: pageNumber,
                     [ApiQueryProperty.INCLUDE_ADULT]:
                         ApiQueryValue.INCLUDE_ADULT,
                     [ApiQueryProperty.QUERY]: searchQuery,
