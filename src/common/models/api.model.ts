@@ -1,10 +1,12 @@
-export interface IQuery {
+interface IQuery {
     [key: string]: string | number;
 }
 
-export interface IFetchOptions {
+interface IFetchOptions {
     method?: string;
     query?: IQuery;
     payload?: ReadableStream | null;
     contentType?: string;
 }
+
+export { IQuery, IFetchOptions };
