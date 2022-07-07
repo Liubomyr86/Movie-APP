@@ -1,6 +1,8 @@
 import { createMoviesSearch } from './components/moviesSearch';
 import { createMovieSelectors } from './components/moviesSelectors';
 import { createMovieCards } from './components/moviesView';
+import { createRandomMovie } from './components/randomMovie';
+import { randomInteger } from './helpers/helpers';
 import { movies } from './services/services';
 
 export async function render(): Promise<void> {
@@ -9,6 +11,9 @@ export async function render(): Promise<void> {
     const moviesInfo: any = await movies.getPopularMovies();
     const { results } = moviesInfo;
 
+    const randomIndex = randomInteger(19);
+
+    const main = document.body.querySelector('.main');
     const cardsContainer = document.body.querySelector(
         'div.album.py-5.bg-light div.container'
     );
@@ -17,17 +22,21 @@ export async function render(): Promise<void> {
     );
     const searchContainer = document.body.querySelector('#search-container');
 
+    const randomMovie = createRandomMovie(results[randomIndex]);
     const selectors = createMovieSelectors();
     const search = createMoviesSearch();
     const cards = createMovieCards(results);
 
+    main?.append(randomMovie);
     selectorsContainer?.append(selectors);
     searchContainer?.append(search);
     cardsContainer?.append(cards);
 
+    console.log(main);
+
     selectors.addEventListener('click', async (e) => {
         const target = e.target! as HTMLElement;
-        let searchInput = search.firstChild as HTMLInputElement;
+        const searchInput = search.firstChild as HTMLInputElement;
 
         switch (target.id) {
             case 'popular':
