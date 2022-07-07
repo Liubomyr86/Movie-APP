@@ -8,6 +8,8 @@ enum tagName {
     LABEL = 'label',
     FORM = 'form',
     BUTTON = 'button',
+    SECTION = 'section',
+    H1 = 'h1',
 }
 
 export { tagName };
