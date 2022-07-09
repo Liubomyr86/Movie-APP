@@ -73,7 +73,7 @@ class Movies {
         );
     }
 
-    getMovieForId(id: string) {
+    getMovieForId(id: string | number) {
         return this.http.load(
             `${this.apiPath}/${ApiLevelAuthentication.Level_3}/${ApiPath.MovieForId}/${id}`,
             {

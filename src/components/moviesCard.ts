@@ -1,56 +1,27 @@
 import {
-    posterAttributeProperty,
-    posterAttributeValue,
     pathAttributeProperty,
     pathAttributeValue,
+    posterAttributeProperty,
+    posterAttributeValue,
     svgAttributeProperty,
     svgAttributeValue,
     tagName,
 } from '../common/enums/enum';
 import { ICard } from '../common/models/card.model';
 import { createHTMLElement, createSVGElement } from '../helpers/helpers';
+import { global } from '../store/store';
+import { toggleFavoriteMovie } from './favoriteMovie';
 
-export const createMovieCards = (results: any): HTMLElement => {
-    const container = createHTMLElement({
-        tagName: tagName.DIV,
-        className: 'row',
-        attributes: { id: 'film-container' },
-    });
-    const movieCards: HTMLElement[] = results.map((item: ICard) => {
-        const { poster_path, overview, release_date } = item;
-        return createMovieCard({ poster_path, overview, release_date });
-    });
+const createMovieCardImage = (
+    { poster_path, overview, release_date, id }: ICard,
+    favoriteMoviesContainer: Element
+): HTMLElement => {
+    const onClick = (e: Event) => {
+        const currentTarget = e.currentTarget! as SVGElement;
+        toggleFavoriteMovie(id!, e, global.set, favoriteMoviesContainer);
 
-    movieCards.forEach((card) => container.append(card));
-
-    return container;
-};
-
-const createMovieCard = ({
-    poster_path,
-    overview,
-    release_date,
-}: ICard): HTMLElement => {
-    const container = createHTMLElement({
-        tagName: tagName.DIV,
-        className: 'col-lg-3 col-md-4 col-12 p-2',
-    });
-    const cardImageConatainer = createMovieCardImage({
-        poster_path,
-        overview,
-        release_date,
-    });
-
-    container.append(cardImageConatainer);
-
-    return container;
-};
-
-const createMovieCardImage = ({
-    poster_path,
-    overview,
-    release_date,
-}: ICard): HTMLElement => {
+        currentTarget.classList.toggle('active');
+    };
     const cardImageConatainer = createHTMLElement({
         tagName: tagName.DIV,
         className: 'card shadow-sm',
@@ -80,6 +51,7 @@ const createMovieCardImage = ({
             [pathAttributeProperty.D]: pathAttributeValue.D,
         },
     });
+    svg.addEventListener('click', onClick);
 
     const cardBodyContainer = createMovieCardBody({ overview, release_date });
 
@@ -118,3 +90,5 @@ const createMovieCardBody = ({
 
     return cardBodyContainer;
 };
+
+export { createMovieCardImage };

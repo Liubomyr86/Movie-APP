@@ -1,5 +1,5 @@
 interface ILocalstorage {
-    [key: string]: string;
+    [key: string]: string | number;
 }
 
 export { ILocalstorage };

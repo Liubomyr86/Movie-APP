@@ -2,7 +2,7 @@ import { tagName } from '../common/enums/enum';
 import { ICard } from '../common/models/card.model';
 import { createHTMLElement } from '../helpers/helpers';
 
-export const createRandomMovie = (random: ICard) => {
+const createRandomMovie = (random: ICard) => {
     const { title, overview, backdrop_path } = random;
     const section = createHTMLElement({
         tagName: tagName.SECTION,
@@ -45,3 +45,5 @@ export const createRandomMovie = (random: ICard) => {
 
     return section;
 };
+
+export { createRandomMovie };
