@@ -7,11 +7,15 @@ import {
     selectorsInputIdValue,
     selectorsLabelNameValue,
     selectorsLabelAtributeProperty,
+    ApiQueryValue,
 } from '../common/enums/enum';
 import { ISelectior } from '../common/models/selector.model';
 import { createHTMLElement } from '../helpers/helpers';
+import { movies } from '../services/services';
+import { global } from '../store/store';
+import { createMovieCards } from './moviesCardContainer';
 
-export const createMovieSelectors = (): HTMLElement => {
+const createMovieSelectors = (): HTMLElement => {
     const selectorWrapper = createHTMLElement({
         tagName: tagName.DIV,
         className: 'btn-group',
@@ -78,3 +82,47 @@ const createMovieSelector = ({
 
     return [selectorInput, selectorLabel];
 };
+
+const selectCategory = async (
+    e: Event,
+    search: Element,
+    cardsContainer: Element,
+    loadMoreBtn: Element,
+    favoriteMoviesContainer: Element
+) => {
+    const target = e.target! as HTMLElement;
+    const searchInput = search.firstChild as HTMLInputElement;
+    let response = [];
+    global.count = ApiQueryValue.PAGE;
+    localStorage.removeItem('search');
+
+    switch (target.id) {
+        case 'popular':
+            response = await movies.getPopularMovies(ApiQueryValue.PAGE);
+            localStorage.setItem('active_category', target.id);
+            searchInput.value = '';
+            break;
+        case 'upcoming':
+            response = await movies.getUpcomingMovies(ApiQueryValue.PAGE);
+            localStorage.setItem('active_category', target.id);
+            searchInput.value = '';
+            break;
+        case 'top_rated':
+            response = await movies.getTopRatedMovies(ApiQueryValue.PAGE);
+            localStorage.setItem('active_category', target.id);
+            searchInput.value = '';
+            break;
+        default:
+            break;
+    }
+
+    if (response.results) {
+        const { results } = response;
+        global.data = results;
+        cardsContainer!.innerHTML = '';
+        const cards = createMovieCards(global.data, favoriteMoviesContainer);
+        cardsContainer?.append(cards, loadMoreBtn);
+    }
+};
+
+export { createMovieSelectors, selectCategory };
