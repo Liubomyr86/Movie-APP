@@ -1,0 +1,3 @@
+const RESPONSE_ARRAY_LENGTH = 19;
+
+export { RESPONSE_ARRAY_LENGTH };
