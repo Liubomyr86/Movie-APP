@@ -4,20 +4,18 @@ import { movies } from '../services/services';
 import { global } from '../store/store';
 import { createMovieCardImage } from './moviesCard';
 
-const renderFavoriteMovie = (container: Element) => {
+const renderFavoriteMovie = (container: Element): void => {
     const localStorageFavoritesId = localStorage.getItem('favorites');
     if (localStorageFavoritesId) {
-        const favoritesId: Set<number | string> = JSON.parse(
-            localStorageFavoritesId
-        );
+        const favoritesId: Set<number> = JSON.parse(localStorageFavoritesId);
         appendFavoriteMovie(container, favoritesId);
     }
 };
 
 const appendFavoriteMovie = (
     container: Element,
-    favoritesId: Set<number | string>
-) => {
+    favoritesId: Set<number>
+): void => {
     favoritesId.forEach(async (id) => {
         global.set.add(id);
         const movie = await movies.getMovieForId(id);
@@ -44,11 +42,11 @@ const appendFavoriteMovie = (
 };
 
 const toggleFavoriteMovie = (
-    id: number | string,
+    id: number,
     event: Event,
-    set: Set<number | string>,
+    set: Set<number>,
     favoriteMoviesContainer: Element
-) => {
+): void => {
     const containerId = (event.currentTarget as HTMLElement).parentElement
         ?.parentElement?.id;
 
@@ -61,8 +59,10 @@ const toggleFavoriteMovie = (
     set.has(id) ? set.delete(id) : set.add(id);
     setLocalStorageItem('favorites', set);
 
-    favoriteMoviesContainer!.innerHTML = '';
-    appendFavoriteMovie(favoriteMoviesContainer!, set);
+    if (favoriteMoviesContainer) {
+        favoriteMoviesContainer.innerHTML = '';
+        appendFavoriteMovie(favoriteMoviesContainer, set);
+    }
 };
 
 export { renderFavoriteMovie, appendFavoriteMovie, toggleFavoriteMovie };

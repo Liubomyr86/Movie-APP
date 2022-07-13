@@ -4,7 +4,7 @@ const createHTMLElement = ({
     tagName,
     className,
     attributes = {},
-}: IHtmlElementProps) => {
+}: IHtmlElementProps): HTMLElement => {
     const element: HTMLElement = document.createElement(tagName);
 
     if (className) {

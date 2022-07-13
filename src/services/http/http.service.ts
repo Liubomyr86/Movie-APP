@@ -1,10 +1,11 @@
 import { HttpHeader, HttpMethod } from '../../common/enums/enum';
+import { IResponse } from '../../common/models/api.model';
 import { IFetchOptions, IQuery } from '../../common/models/models';
 import { HttpError } from '../../exceptions/http-error.exception';
 import { getStringifiedQuery } from '../../helpers/helpers';
 
 class Http {
-    async load(url: string, options: IFetchOptions) {
+    async load(url: string, options: IFetchOptions): Promise<IResponse> {
         const {
             method = HttpMethod.GET,
             payload = null,
@@ -59,7 +60,7 @@ class Http {
         return await response.json();
     }
 
-    private throwError(err: unknown): void {
+    private throwError(err: unknown): never {
         throw err;
     }
 }

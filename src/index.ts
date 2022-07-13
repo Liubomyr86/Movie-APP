@@ -17,6 +17,7 @@ import { global } from './store/store';
 export async function render(): Promise<void> {
     const randomIndex = randomInteger(RESPONSE_ARRAY_LENGTH);
     const results = await global.getData();
+
     global.data.push(...results);
 
     const favoriteMoviesContainer =
@@ -46,7 +47,7 @@ export async function render(): Promise<void> {
     cardsContainer?.append(cards, loadMoreBtn);
 
     loadMoreBtn.addEventListener('click', () => {
-        loadMoreMovies(cardsContainer!, loadMoreBtn);
+        loadMoreMovies(cardsContainer!, loadMoreBtn, favoriteMoviesContainer!);
     });
     selectors.addEventListener('click', (e) => {
         selectCategory(
@@ -61,13 +62,13 @@ export async function render(): Promise<void> {
         searchMovie(
             e,
             search,
-
             cardsContainer!,
-            loadMoreBtn
+            loadMoreBtn,
+            favoriteMoviesContainer!
         );
     });
     searchInput.addEventListener('search', () => {
-        clearSearchBar(cardsContainer!, loadMoreBtn);
+        clearSearchBar(cardsContainer!, loadMoreBtn, favoriteMoviesContainer!);
     });
 
     window.onbeforeunload = function () {

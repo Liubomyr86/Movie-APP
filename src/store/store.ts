@@ -1,19 +1,16 @@
-import { RESPONSE_ARRAY_LENGTH } from '../common/constants/servisec';
 import { ApiQueryValue } from '../common/enums/enum';
-import { randomInteger } from '../helpers/helpers';
+import { ICard } from '../common/models/card.model';
 import { movies } from '../services/services';
 
 class Global {
-    data: any = [];
-    set: Set<number | string> = new Set();
+    data: ICard[] = [];
+    set: Set<number> = new Set();
     count: number = ApiQueryValue.PAGE;
 
-    async getData() {
-        const moviesInfo: any = await movies.getPopularMovies(
-            ApiQueryValue.PAGE
-        );
-        const { results } = moviesInfo;
-        return results;
+    async getData(): Promise<ICard[]> {
+        const popularMovies = await movies.getPopularMovies(ApiQueryValue.PAGE);
+
+        return popularMovies;
     }
 }
 

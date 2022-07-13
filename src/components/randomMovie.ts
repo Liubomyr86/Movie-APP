@@ -2,7 +2,7 @@ import { tagName } from '../common/enums/enum';
 import { ICard } from '../common/models/card.model';
 import { createHTMLElement } from '../helpers/helpers';
 
-const createRandomMovie = (random: ICard) => {
+const createRandomMovie = (random: ICard): HTMLElement => {
     const { title, overview, backdrop_path } = random;
     const section = createHTMLElement({
         tagName: tagName.SECTION,
@@ -30,14 +30,14 @@ const createRandomMovie = (random: ICard) => {
         className: 'fw-light text-light',
         attributes: { id: 'random-movie-name' },
     });
-    movieName.innerText = title!;
+    if (title) movieName.innerText = title;
 
     const movieDescription = createHTMLElement({
         tagName: tagName.DIV,
         className: 'lead text-white',
         attributes: { id: 'random-movie-description' },
     });
-    movieDescription.innerText = overview!;
+    if (overview) movieDescription.innerText = overview;
 
     textContainer.append(movieName, movieDescription);
     container.append(textContainer);

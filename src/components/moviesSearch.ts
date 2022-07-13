@@ -6,12 +6,13 @@ import {
     searchMovieIdValue,
     tagName,
 } from '../common/enums/enum';
+import { ICard } from '../common/models/card.model';
 import { createHTMLElement, setLocalStorageItem } from '../helpers/helpers';
 import { movies } from '../services/services';
 import { global } from '../store/store';
 import { createMovieCards } from './moviesCardContainer';
 
-const createMoviesSearch = () => {
+const createMoviesSearch = (): HTMLFormElement => {
     const form = createHTMLElement({
         tagName: tagName.FORM,
         className: 'form-inline col-6 px-2 d-flex',
@@ -49,13 +50,14 @@ const searchMovie = async (
     e: Event,
     search: Element,
     cardsContainer: Element,
-    loadMoreBtn: Element
-) => {
+    loadMoreBtn: Element,
+    favoriteMoviesContainer: Element
+): Promise<void> => {
     const target = e.target! as HTMLElement;
     const searchInputValue = (
         search.firstChild as HTMLInputElement
     ).value.trim();
-    let response = [];
+    let response: ICard[] = [];
 
     global.count = ApiQueryValue.PAGE;
 
@@ -70,22 +72,22 @@ const searchMovie = async (
         });
     }
 
-    if (response.results) {
-        const { results } = response;
-        global.data = results;
+    if (response.length) {
+        global.data = response;
         cardsContainer!.innerHTML = '';
-        const cards = createMovieCards(global.data);
+        const cards = createMovieCards(global.data, favoriteMoviesContainer);
         cardsContainer?.append(cards, loadMoreBtn);
     }
 };
 
 const clearSearchBar = async (
     cardsContainer: Element,
-    loadMoreBtn: Element
-) => {
+    loadMoreBtn: Element,
+    favoriteMoviesContainer: Element
+): Promise<void> => {
     const activeCategory = localStorage.getItem('active_category');
     global.count = ApiQueryValue.PAGE;
-    let response = [];
+    let response: ICard[] = [];
     localStorage.removeItem('search');
 
     switch (activeCategory) {
@@ -100,11 +102,10 @@ const clearSearchBar = async (
             break;
     }
 
-    if (response.results) {
-        const { results } = response;
-        global.data = results;
+    if (response.length) {
+        global.data = response;
         cardsContainer!.innerHTML = '';
-        const cards = createMovieCards(global.data);
+        const cards = createMovieCards(global.data, favoriteMoviesContainer);
         cardsContainer?.append(cards, loadMoreBtn);
     }
 };

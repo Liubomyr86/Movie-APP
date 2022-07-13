@@ -35,7 +35,9 @@ const createMovieCardImage = (
         },
     }) as HTMLImageElement;
 
-    image.src = `https://image.tmdb.org/t/p/w500${poster_path}`;
+    poster_path
+        ? (image.src = `https://image.tmdb.org/t/p/w500${poster_path}`)
+        : (image.src = 'assets/image.png');
     const svg = createSVGElement({
         tagName: tagName.SVG,
         className: 'bi bi-heart-fill position-absolute p-2',

@@ -5,7 +5,9 @@ import {
     ApiQueryValue,
     ENV,
 } from '../../common/enums/enum';
-import { IQuery } from '../../common/models/models';
+import { IResponse } from '../../common/models/api.model';
+import { ICard, IQuery } from '../../common/models/models';
+import { mapper } from '../../helpers/common/mapper';
 import { Http } from '../http/http.service';
 
 const query: IQuery = {
@@ -22,8 +24,8 @@ class Movies {
         this.http = http;
     }
 
-    getPopularMovies(pageNumber: number) {
-        return this.http.load(
+    async getPopularMovies(pageNumber: number): Promise<ICard[]> {
+        const response: IResponse = await this.http.load(
             `${this.apiPath}/${ApiLevelAuthentication.Level_3}/${ApiPath.Popular}`,
             {
                 query: {
@@ -32,10 +34,25 @@ class Movies {
                 },
             }
         );
+        const { results } = response;
+        const mappedResults = (results as ICard[]).map(
+            (item: ICard) =>
+                mapper(
+                    item,
+                    'backdrop_path',
+                    'id',
+                    'title',
+                    'overview',
+                    'poster_path',
+                    'release_date'
+                ) as ICard
+        );
+
+        return mappedResults;
     }
 
-    getTopRatedMovies(pageNumber: number) {
-        return this.http.load(
+    async getTopRatedMovies(pageNumber: number): Promise<ICard[]> {
+        const response: IResponse = await this.http.load(
             `${this.apiPath}/${ApiLevelAuthentication.Level_3}/${ApiPath.TopRated}`,
             {
                 query: {
@@ -44,10 +61,25 @@ class Movies {
                 },
             }
         );
+        const { results } = response;
+        const mappedResults = (results as ICard[]).map(
+            (item: ICard) =>
+                mapper(
+                    item,
+                    'backdrop_path',
+                    'id',
+                    'title',
+                    'overview',
+                    'poster_path',
+                    'release_date'
+                ) as ICard
+        );
+
+        return mappedResults;
     }
 
-    getUpcomingMovies(pageNumber: number) {
-        return this.http.load(
+    async getUpcomingMovies(pageNumber: number): Promise<ICard[]> {
+        const response: IResponse = await this.http.load(
             `${this.apiPath}/${ApiLevelAuthentication.Level_3}/${ApiPath.Upcoming}`,
             {
                 query: {
@@ -56,10 +88,28 @@ class Movies {
                 },
             }
         );
+        const { results } = response;
+        const mappedResults = (results as ICard[]).map(
+            (item: ICard) =>
+                mapper(
+                    item,
+                    'backdrop_path',
+                    'id',
+                    'title',
+                    'overview',
+                    'poster_path',
+                    'release_date'
+                ) as ICard
+        );
+
+        return mappedResults;
     }
 
-    searchMovie(searchQuery: string, pageNumber: number) {
-        return this.http.load(
+    async searchMovie(
+        searchQuery: string,
+        pageNumber: number
+    ): Promise<ICard[]> {
+        const response: IResponse = await this.http.load(
             `${this.apiPath}/${ApiLevelAuthentication.Level_3}/${ApiPath.Search}`,
             {
                 query: {
@@ -71,10 +121,26 @@ class Movies {
                 },
             }
         );
+
+        const { results } = response;
+        const mappedResults = (results as ICard[]).map(
+            (item: ICard) =>
+                mapper(
+                    item,
+                    'backdrop_path',
+                    'id',
+                    'title',
+                    'overview',
+                    'poster_path',
+                    'release_date'
+                ) as ICard
+        );
+
+        return mappedResults;
     }
 
-    getMovieForId(id: string | number) {
-        return this.http.load(
+    async getMovieForId(id: number): Promise<ICard> {
+        const response: ICard = await this.http.load(
             `${this.apiPath}/${ApiLevelAuthentication.Level_3}/${ApiPath.MovieForId}/${id}`,
             {
                 query: {
@@ -82,6 +148,17 @@ class Movies {
                 },
             }
         );
+        const mappedResults = mapper(
+            response,
+            'backdrop_path',
+            'id',
+            'title',
+            'overview',
+            'poster_path',
+            'release_date'
+        ) as ICard;
+
+        return mappedResults;
     }
 }
 

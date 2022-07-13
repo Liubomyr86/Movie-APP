@@ -1,3 +1,5 @@
+import { ICard } from './card.model';
+
 interface IQuery {
     [key: string]: string | number | boolean;
 }
@@ -9,4 +11,8 @@ interface IFetchOptions {
     contentType?: string;
 }
 
-export { IQuery, IFetchOptions };
+interface IResponse {
+    [key: string]: string | number | ICard[] | boolean;
+}
+
+export { IQuery, IFetchOptions, IResponse };

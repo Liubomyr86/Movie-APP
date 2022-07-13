@@ -5,7 +5,7 @@ const createSVGElement = ({
     className,
     svgAttributes,
     pathAttributes,
-}: ISvgElementProps) => {
+}: ISvgElementProps): SVGElement => {
     const iconSvg = document.createElementNS(
         'http://www.w3.org/2000/svg',
         tagName

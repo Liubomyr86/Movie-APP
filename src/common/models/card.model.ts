@@ -1,15 +1,11 @@
 interface ICard {
-    id?: number | string;
+    id?: number;
     title?: string;
     overview?: string;
     poster_path?: string;
     backdrop_path?: string;
     release_date?: string;
-    toggle?: (
-        id: number | string,
-        event: Event,
-        set: Set<number | string>
-    ) => void;
+    toggle?: (id: number, event: Event, set: Set<number>) => void;
 }
 
 export { ICard };

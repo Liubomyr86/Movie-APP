@@ -9,6 +9,7 @@ import {
     selectorsLabelAtributeProperty,
     ApiQueryValue,
 } from '../common/enums/enum';
+import { ICard } from '../common/models/card.model';
 import { ISelectior } from '../common/models/selector.model';
 import { createHTMLElement } from '../helpers/helpers';
 import { movies } from '../services/services';
@@ -89,10 +90,10 @@ const selectCategory = async (
     cardsContainer: Element,
     loadMoreBtn: Element,
     favoriteMoviesContainer: Element
-) => {
+): Promise<void> => {
     const target = e.target! as HTMLElement;
     const searchInput = search.firstChild as HTMLInputElement;
-    let response = [];
+    let response: ICard[] = [];
     global.count = ApiQueryValue.PAGE;
     localStorage.removeItem('search');
 
@@ -116,9 +117,8 @@ const selectCategory = async (
             break;
     }
 
-    if (response.results) {
-        const { results } = response;
-        global.data = results;
+    if (response.length) {
+        global.data = response;
         cardsContainer!.innerHTML = '';
         const cards = createMovieCards(global.data, favoriteMoviesContainer);
         cardsContainer?.append(cards, loadMoreBtn);

@@ -1,6 +1,6 @@
 import { ILocalstorage } from '../../common/models/localstorage.model';
 
-export const setLocalStorageItem = <T>(key: string, val: T) => {
+export const setLocalStorageItem = <T>(key: string, val: T): void => {
     const value = typeof val === 'object' ? JSON.stringify(val) : String(val);
     localStorage.setItem(key, value);
 };

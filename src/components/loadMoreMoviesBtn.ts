@@ -1,4 +1,5 @@
 import { tagName } from '../common/enums/enum';
+import { ICard } from '../common/models/card.model';
 import {
     createHTMLElement,
     getObjectFromLocalStorage,
@@ -27,11 +28,12 @@ const createLoadMoreMoviesBtn = (): HTMLElement => {
 
 const loadMoreMovies = async (
     cardsContainer: Element,
-    loadMoreBtn: Element
-) => {
+    loadMoreBtn: Element,
+    favoriteMoviesContainer: Element
+): Promise<void> => {
     const activeCategory = localStorage.getItem('active_category');
     const search = getObjectFromLocalStorage('search');
-    let response = [];
+    let response: ICard[] = [];
     global.count++;
 
     if (search && typeof search.searchInputValue === 'string') {
@@ -53,12 +55,16 @@ const loadMoreMovies = async (
         }
     }
 
-    if (response.results && global.count < response.total_pages) {
-        const { results } = response;
-        global.data.push(...results);
-        cardsContainer!.innerHTML = '';
-        const cards = createMovieCards(global.data);
-        cardsContainer?.append(cards, loadMoreBtn);
+    if (response.length) {
+        global.data.push(...response);
+        if (cardsContainer) {
+            cardsContainer.innerHTML = '';
+            const cards = createMovieCards(
+                global.data,
+                favoriteMoviesContainer
+            );
+            cardsContainer.append(cards, loadMoreBtn);
+        }
     }
 };
 

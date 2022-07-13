@@ -1,14 +1,10 @@
 import { tagName } from '../common/enums/enum';
 import { ICard } from '../common/models/card.model';
-import { ILocalstorage } from '../common/models/localstorage.model';
-import {
-    createHTMLElement,
-    getObjectFromLocalStorage,
-} from '../helpers/helpers';
+import { createHTMLElement } from '../helpers/helpers';
 import { createMovieCardImage } from './moviesCard';
 
 const createMovieCards = (
-    results: any,
+    results: ICard[],
     favoriteMoviesContainer: Element
 ): HTMLElement => {
     const container = createHTMLElement({
